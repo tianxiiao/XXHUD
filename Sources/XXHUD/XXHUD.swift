@@ -1,8 +1,9 @@
 import UIKit
+import Foundation
 
 @MainActor
-public class XXHUDManager {
-    public static let shared = XXHUDManager()
+public class XXHUD {
+    public static let shared = XXHUD()
     
     private var hudView: UIView?
     private var hudQueue: [(view: UIView, text: String?, style: HUDStyle, duration: TimeInterval?)] = []
@@ -76,7 +77,7 @@ public class XXHUDManager {
             indicator.startAnimating()
             iconView = indicator
         case .success(let image, let tintColor):
-            let image = image ?? UIImage(named: "success")!
+            let image = image ?? UIImage.xxhud(named: "success")
             var imageView = UIImageView(image: image.withRenderingMode(.alwaysOriginal))
             if let tint = tintColor {
                 imageView.tintColor = tint
@@ -169,5 +170,16 @@ public class XXHUDManager {
             self.isShowing = false
             self.displayNextIfNeeded()
         })
+    }
+}
+
+extension Bundle {
+    static let xxhud: Bundle = {
+        return Bundle.module
+    }()
+}
+extension UIImage {
+    static func xxhud(named name: String) -> UIImage {
+        return UIImage(named: name, in: .xxhud, compatibleWith: nil) ?? UIImage()
     }
 }

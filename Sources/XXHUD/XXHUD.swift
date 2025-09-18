@@ -64,7 +64,7 @@ public class XXHUD {
             stackView.leadingAnchor.constraint(greaterThanOrEqualTo: box.leadingAnchor, constant: 12),
             stackView.trailingAnchor.constraint(lessThanOrEqualTo: box.trailingAnchor, constant: -12),
             stackView.topAnchor.constraint(greaterThanOrEqualTo: box.topAnchor, constant: 12),
-            stackView.bottomAnchor.constraint(lessThanOrEqualTo: box.bottomAnchor, constant: -12)
+            stackView.bottomAnchor.constraint(lessThanOrEqualTo: box.bottomAnchor, constant: -12),
         ])
         
         // --- 图标视图 ---
@@ -134,13 +134,16 @@ public class XXHUD {
         if style == .info {
             NSLayoutConstraint.activate([
                 box.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-//                box.centerYAnchor.constraint(equalTo: container.centerYAnchor),
-                box.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -50)
+                box.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -50),
+                box.widthAnchor.constraint(lessThanOrEqualTo: container.widthAnchor, multiplier: 0.8),
+                box.widthAnchor.constraint(greaterThanOrEqualTo: stackView.widthAnchor, constant: 24)
             ])
         }else{
             NSLayoutConstraint.activate([
                 box.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-                box.centerYAnchor.constraint(equalTo: container.centerYAnchor)
+                box.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+                box.widthAnchor.constraint(lessThanOrEqualTo: container.widthAnchor, multiplier: 0.8),
+                box.widthAnchor.constraint(greaterThanOrEqualTo: stackView.widthAnchor, constant: 24)
             ])
         }
         

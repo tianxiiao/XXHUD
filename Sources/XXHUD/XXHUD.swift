@@ -13,7 +13,7 @@ public class XXHUDManager {
     private init() {}
     
     // MARK: - 添加 HUD
-    public func enqueue(in view: UIView, text: String?, style: HUDStyle, duration: TimeInterval?) {
+    public func enqueue(in view: UIView, text: String? = nil, style: HUDStyle = .loading, duration: TimeInterval? = nil) {
         hudQueue.append((view, text, style, duration))
         displayNextIfNeeded()
     }
@@ -32,7 +32,6 @@ public class XXHUDManager {
     
     // MARK: - 显示 HUD
     private func showHUD(in view: UIView, text: String?, style: HUDStyle, duration: TimeInterval?) {
-        // 移除旧 HUD
         hudView?.removeFromSuperview()
         
         let container = UIView(frame: view.bounds)
@@ -43,62 +42,101 @@ public class XXHUDManager {
         let box = UIView()
         box.backgroundColor = configuration.boxBackgroundColor
         box.layer.cornerRadius = configuration.cornerRadius
+        box.layer.shadowColor = configuration.shadowColor.cgColor
+        box.layer.shadowOpacity = configuration.shadowOpacity
+        box.layer.shadowOffset = configuration.shadowOffset
+        box.layer.shadowRadius = configuration.shadowRadius
         box.translatesAutoresizingMaskIntoConstraints = false
         container.addSubview(box)
         view.addSubview(container)
         
+        // --- 动态内容容器 ---
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        box.addSubview(stackView)
+        
         NSLayoutConstraint.activate([
-            box.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-            box.centerYAnchor.constraint(equalTo: container.centerYAnchor),
-            box.widthAnchor.constraint(equalToConstant: configuration.defaultHUDSize.width),
-            box.heightAnchor.constraint(equalToConstant: configuration.defaultHUDSize.height)
+            stackView.centerXAnchor.constraint(equalTo: box.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: box.centerYAnchor),
+            stackView.leadingAnchor.constraint(greaterThanOrEqualTo: box.leadingAnchor, constant: 12),
+            stackView.trailingAnchor.constraint(lessThanOrEqualTo: box.trailingAnchor, constant: -12),
+            stackView.topAnchor.constraint(greaterThanOrEqualTo: box.topAnchor, constant: 12),
+            stackView.bottomAnchor.constraint(lessThanOrEqualTo: box.bottomAnchor, constant: -12)
         ])
         
-        // 内容视图
-        let contentView: UIView
+        // --- 图标视图 ---
+        var iconView: UIView?
         switch style {
         case .loading:
             let indicator = UIActivityIndicatorView(style: .large)
             indicator.color = .white
             indicator.startAnimating()
-            contentView = indicator
-        case .success:
-            let label = UILabel()
-            label.text = "✔︎"
-            label.font = .systemFont(ofSize: 50)
-            label.textColor = .green
-            label.textAlignment = .center
-            contentView = label
-        case .error:
-            let label = UILabel()
-            label.text = "✖︎"
-            label.font = .systemFont(ofSize: 50)
-            label.textColor = .red
-            label.textAlignment = .center
-            contentView = label
-        case .info:
-            let label = UILabel()
-            label.text = "ℹ︎"
-            label.font = .systemFont(ofSize: 50)
-            label.textColor = configuration.textColor
-            label.textAlignment = .center
-            contentView = label
-        case .custom(let image, let tintColor):
-            let imageView = UIImageView(image: image.withRenderingMode(.alwaysTemplate))
-            if let tint = tintColor { imageView.tintColor = tint }
+            iconView = indicator
+        case .success(let image, let tintColor):
+            let image = image ?? UIImage(named: "success")!
+            var imageView = UIImageView(image: image.withRenderingMode(.alwaysOriginal))
+            if let tint = tintColor {
+                imageView.tintColor = tint
+                imageView = UIImageView(image: image.withRenderingMode(.alwaysTemplate))
+            }
             imageView.contentMode = .scaleAspectFit
-            contentView = imageView
+            NSLayoutConstraint.activate([
+                imageView.widthAnchor.constraint(equalToConstant: 40),
+                imageView.heightAnchor.constraint(equalToConstant: 40)
+            ])
+            iconView = imageView
+        case .error(let image, let tintColor):
+            let image = image ?? UIImage(named: "error")!
+            var imageView = UIImageView(image: image.withRenderingMode(.alwaysOriginal))
+            if let tint = tintColor {
+                imageView.tintColor = tint
+                imageView = UIImageView(image: image.withRenderingMode(.alwaysTemplate))
+            }
+            imageView.contentMode = .scaleAspectFit
+            NSLayoutConstraint.activate([
+                imageView.widthAnchor.constraint(equalToConstant: 40),
+                imageView.heightAnchor.constraint(equalToConstant: 40)
+            ])
+            iconView = imageView
+        case .info:
+            iconView = nil // info 不需要图标
+        case .custom(let image, let tintColor):
+            var imageView = UIImageView(image: image.withRenderingMode(.alwaysOriginal))
+            if let tint = tintColor {
+                imageView.tintColor = tint
+                imageView = UIImageView(image: image.withRenderingMode(.alwaysTemplate))
+            }
+            imageView.contentMode = .scaleAspectFit
+            NSLayoutConstraint.activate([
+                imageView.widthAnchor.constraint(equalToConstant: 40),
+                imageView.heightAnchor.constraint(equalToConstant: 40)
+            ])
+            iconView = imageView
         }
         
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        box.addSubview(contentView)
+        if let icon = iconView {
+            stackView.addArrangedSubview(icon)
+        }
+        
+        // --- 文字视图 ---
+        if let text = text, !text.isEmpty {
+            let label = UILabel()
+            label.text = text
+            label.font = configuration.textFont
+            label.textColor = configuration.textColor
+            label.numberOfLines = 0
+            label.textAlignment = .center
+            stackView.addArrangedSubview(label)
+        }
         
         NSLayoutConstraint.activate([
-            contentView.centerXAnchor.constraint(equalTo: box.centerXAnchor),
-            contentView.centerYAnchor.constraint(equalTo: box.centerYAnchor)
+            box.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+            box.centerYAnchor.constraint(equalTo: container.centerYAnchor)
         ])
         
-        // 保存 HUD
         hudView = container
         
         // 动画
@@ -112,13 +150,13 @@ public class XXHUDManager {
             container.transform = .identity
         })
         
-        // 自动消失
         if let duration = duration {
             DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
                 self.hideHUD()
             }
         }
     }
+
     
     private func hideHUD() {
         UIView.animate(withDuration: configuration.animationDuration,

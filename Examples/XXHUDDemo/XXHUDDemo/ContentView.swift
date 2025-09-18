@@ -22,6 +22,11 @@ struct ContentView: View {
                     XXHUD.shared.enqueue(in: window, text: "成功", style: .success(), duration: 2)
                 }
             }
+            Button("提示") {
+                if let window = UIApplication.shared.windows.first {
+                    XXHUD.shared.enqueue(in: window, text: "点击按钮", style: .info, duration: 2)
+                }
+            }
         }
     }
 }

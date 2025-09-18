@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D90BE2632E7BA961006F7695 /* XXHUD in Frameworks */ = {isa = PBXBuildFile; productRef = D90BE2622E7BA961006F7695 /* XXHUD */; };
 		D90BE2662E7BB2F4006F7695 /* XXHUD in Frameworks */ = {isa = PBXBuildFile; productRef = D90BE2652E7BB2F4006F7695 /* XXHUD */; };
+		D90BE28D2E7BCBEE006F7695 /* XXHUD in Frameworks */ = {isa = PBXBuildFile; productRef = D90BE28C2E7BCBEE006F7695 /* XXHUD */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D90BE28D2E7BCBEE006F7695 /* XXHUD in Frameworks */,
 				D90BE2662E7BB2F4006F7695 /* XXHUD in Frameworks */,
 				D90BE2632E7BA961006F7695 /* XXHUD in Frameworks */,
 			);
@@ -87,6 +89,7 @@
 			packageProductDependencies = (
 				D90BE2622E7BA961006F7695 /* XXHUD */,
 				D90BE2652E7BB2F4006F7695 /* XXHUD */,
+				D90BE28C2E7BCBEE006F7695 /* XXHUD */,
 			);
 			productName = XXHUDDemo;
 			productReference = D90BE20E2E7AB578006F7695 /* XXHUDDemo.app */;
@@ -117,7 +120,7 @@
 			mainGroup = D90BE2052E7AB578006F7695;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				D90BE2642E7BB2F4006F7695 /* XCLocalSwiftPackageReference "../../XXHUD" */,
+				D90BE28B2E7BCBEE006F7695 /* XCLocalSwiftPackageReference "../../../XXHUD" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D90BE20F2E7AB578006F7695 /* Products */;
@@ -349,9 +352,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		D90BE2642E7BB2F4006F7695 /* XCLocalSwiftPackageReference "../../XXHUD" */ = {
+		D90BE28B2E7BCBEE006F7695 /* XCLocalSwiftPackageReference "../../../XXHUD" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../XXHUD;
+			relativePath = ../../../XXHUD;
 		};
 /* End XCLocalSwiftPackageReference section */
 
@@ -361,6 +364,10 @@
 			productName = XXHUD;
 		};
 		D90BE2652E7BB2F4006F7695 /* XXHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = XXHUD;
+		};
+		D90BE28C2E7BCBEE006F7695 /* XXHUD */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = XXHUD;
 		};

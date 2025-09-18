@@ -1,6 +1,6 @@
 import UIKit
 
-public enum HUDStyle {
+public enum HUDStyle: Equatable {
     case loading
     case success(image: UIImage? = nil, tintColor: UIColor? = nil)
     case error(image: UIImage? = nil, tintColor: UIColor? = nil)

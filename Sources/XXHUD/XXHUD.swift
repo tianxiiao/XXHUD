@@ -36,9 +36,8 @@ public class XXHUD {
         hudView?.removeFromSuperview()
         
         let container = UIView(frame: view.bounds)
-        container.backgroundColor = configuration.containerBackgroundColor
+        container.backgroundColor = (style == .info) ? UIColor.clear : configuration.containerBackgroundColor
         container.alpha = 0
-        container.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         
         let box = UIView()
         box.backgroundColor = configuration.boxBackgroundColor
@@ -132,11 +131,18 @@ public class XXHUD {
             label.textAlignment = .center
             stackView.addArrangedSubview(label)
         }
-        
-        NSLayoutConstraint.activate([
-            box.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-            box.centerYAnchor.constraint(equalTo: container.centerYAnchor)
-        ])
+        if style == .info {
+            NSLayoutConstraint.activate([
+                box.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+//                box.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+                box.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -50)
+            ])
+        }else{
+            NSLayoutConstraint.activate([
+                box.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+                box.centerYAnchor.constraint(equalTo: container.centerYAnchor)
+            ])
+        }
         
         hudView = container
         
@@ -163,7 +169,6 @@ public class XXHUD {
         UIView.animate(withDuration: configuration.animationDuration,
                        animations: {
             self.hudView?.alpha = 0
-            self.hudView?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         }, completion: { _ in
             self.hudView?.removeFromSuperview()
             self.hudView = nil

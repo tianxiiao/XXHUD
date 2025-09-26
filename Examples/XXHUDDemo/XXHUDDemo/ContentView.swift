@@ -14,27 +14,31 @@ struct ContentView: View {
             Button("加载") {
                 if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                    let window = windowScene.windows.first {
-                    XXHUD.shared.enqueue(in: window, text: "加载中...", style: .loading, duration: 2)
+//                    XXHUD.shared.enqueue(in: window, text: "加载中...", style: .loading, duration: 2)
+                    XXHUD.show(in: window, text: "加载中...", style: .loading, duration: 2)
                 }
             }
             
             Button("成功1") {
                 if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                    let window = windowScene.windows.first {
-                    XXHUD.shared.enqueue(in: window, text: "成功", style: .success(image: UIImage(systemName: "backward.fill")), duration: 2)
+//                    XXHUD.shared.enqueue(in: window, text: "成功", style: .success(image: UIImage(systemName: "backward.fill")), duration: 2)
+                    XXHUD.show(in: window, text: "成功", style: .success(image: UIImage(systemName: "backward.fill")), duration: 2)
                 }
             }
             
             Button("成功2") {
                 if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                    let window = windowScene.windows.first {
-                    XXHUD.shared.enqueue(in: window, text: "成功", style: .success(), duration: 2)
+//                    XXHUD.shared.enqueue(in: window, text: "成功", style: .success(), duration: 2)
+                    XXHUD.show(in: window, text: "成功", style: .success(), duration: 2)
                 }
             }
             Button("提示") {
                 if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                    let window = windowScene.windows.first {
-                    XXHUD.shared.enqueue(in: window, text: "这是一个提示", style: .info, duration: 2)
+//                    XXHUD.shared.enqueue(in: window, text: "这是一个提示", style: .info, duration: 2)
+                    XXHUD.show(in: window, text: "这是一个提示", style: .info, duration: 2)
                 }
             }
         }

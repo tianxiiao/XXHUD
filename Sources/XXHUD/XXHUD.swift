@@ -13,17 +13,23 @@ public class XXHUD {
     
     private init() {}
     
-    // MARK: - 添加 HUD
-    public func enqueue(in view: UIView, text: String? = nil, style: HUDStyle = .loading, duration: TimeInterval? = nil) {
+    // MARK: - 类型方法
+    
+    public static func hide() {
+        shared.hideHUD()
+    }
+    
+    // MARK: - 显示 HUD
+    ///特殊场景使用，不建议使用
+    public static func showQueue(in view: UIView, text: String? = nil, style: HUDStyle = .loading, duration: TimeInterval? = nil) {
+        shared.enqueue(in: view, text: text, style: style, duration: duration)
+    }
+    
+    public func enqueue(in view: UIView, text: String?, style: HUDStyle, duration: TimeInterval?) {
         hudQueue.append((view, text, style, duration))
         displayNextIfNeeded()
     }
     
-    public func hide() {
-        hideHUD()
-    }
-    
-    // MARK: - 队列管理
     private func displayNextIfNeeded() {
         guard !isShowing, !hudQueue.isEmpty else { return }
         isShowing = true
@@ -31,8 +37,11 @@ public class XXHUD {
         showHUD(in: next.view, text: next.text, style: next.style, duration: next.duration)
     }
     
-    // MARK: - 显示 HUD
-    private func showHUD(in view: UIView, text: String?, style: HUDStyle, duration: TimeInterval?) {
+    ///推荐使用
+    public static func show(in view: UIView, text: String? = nil, style: HUDStyle = .loading, duration: TimeInterval? = nil) {
+        shared.showHUD(in: view, text: text, style: style, duration: duration)
+    }
+    public func showHUD(in view: UIView, text: String?, style: HUDStyle, duration: TimeInterval?) {
         hudView?.removeFromSuperview()
         
         let container = UIView(frame: view.bounds)
@@ -142,8 +151,6 @@ public class XXHUD {
             NSLayoutConstraint.activate([
                 box.centerXAnchor.constraint(equalTo: container.centerXAnchor),
                 box.centerYAnchor.constraint(equalTo: container.centerYAnchor),
-                box.widthAnchor.constraint(lessThanOrEqualTo: container.widthAnchor, multiplier: 0.8),
-                box.widthAnchor.constraint(greaterThanOrEqualTo: stackView.widthAnchor, constant: 24)
             ])
         }
         

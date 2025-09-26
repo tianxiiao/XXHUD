@@ -15,16 +15,17 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
 
         // 显示加载
-        XXHUD.shared.enqueue(in: self.view, text: "加载中............", style: .loading)
-
+//        XXHUD.shared.enqueue(in: self.view, text: "加载中............", style: .loading)
+        XXHUD.showQueue(in: self.view, text: "加载中....", style: .loading)
         // 显示成功提示 2 秒
-        XXHUD.shared.enqueue(in: self.view, text: "成功", style: .custom(image: UIImage(systemName: "backward.fill")!), duration: 2)
-        XXHUD.shared.enqueue(in: self.view, text: "成功", style: .success(), duration: 2)
+//        XXHUD.shared.showHUD(in: self.view, text: "成功", style: .custom(image: UIImage(systemName: "backward.fill")!), duration: 2)
+        XXHUD.showQueue(in: self.view, text: "成功", style: .success(), duration: 2)
         
         // 仅显示信息
-        XXHUD.shared.enqueue(in: self.view, text: "成功", style: .info, duration: 2)
+        XXHUD.show(in: self.view, text: "成功", style: .info, duration: 2)
         // 隐藏 HUD
-        XXHUD.shared.hide()
+//        XXHUD.shared.hide()
+        XXHUD.hide()
 
     }
 

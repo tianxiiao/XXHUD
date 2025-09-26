@@ -25,7 +25,7 @@ public class XXHUD {
         shared.enqueue(in: view, text: text, style: style, duration: duration)
     }
     
-    public func enqueue(in view: UIView, text: String?, style: HUDStyle, duration: TimeInterval?) {
+    func enqueue(in view: UIView, text: String?, style: HUDStyle, duration: TimeInterval?) {
         hudQueue.append((view, text, style, duration))
         displayNextIfNeeded()
     }
@@ -41,7 +41,7 @@ public class XXHUD {
     public static func show(in view: UIView, text: String? = nil, style: HUDStyle = .loading, duration: TimeInterval? = nil) {
         shared.showHUD(in: view, text: text, style: style, duration: duration)
     }
-    public func showHUD(in view: UIView, text: String?, style: HUDStyle, duration: TimeInterval?) {
+    func showHUD(in view: UIView, text: String?, style: HUDStyle, duration: TimeInterval?) {
         hudView?.removeFromSuperview()
         
         let container = UIView(frame: view.bounds)

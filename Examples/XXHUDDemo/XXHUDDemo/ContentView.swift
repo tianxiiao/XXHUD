@@ -15,7 +15,7 @@ struct ContentView: View {
                 if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                    let window = windowScene.windows.first {
 //                    XXHUD.shared.enqueue(in: window, text: "加载中...", style: .loading, duration: 2)
-                    XXHUD.show(in: window, text: "加载中...", style: .loading, duration: 2)
+                    XXHUD.show(in: window, text: "加载中...", style: .loading)
                 }
             }
             
@@ -35,11 +35,7 @@ struct ContentView: View {
                 }
             }
             Button("提示") {
-                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                   let window = windowScene.windows.first {
-//                    XXHUD.shared.enqueue(in: window, text: "这是一个提示", style: .info, duration: 2)
-                    XXHUD.show(in: window, text: "这是一个提示", style: .info, duration: 2)
-                }
+                XXHUD.show(text: "这是一个提示啊")
             }
         }
     }

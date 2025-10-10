@@ -21,8 +21,9 @@ public class XXHUD {
     
     // MARK: - 显示 HUD
     ///特殊场景使用，不建议使用
-    public static func showQueue(in view: UIView, text: String? = nil, style: HUDStyle = .loading, duration: TimeInterval? = nil) {
-        shared.enqueue(in: view, text: text, style: style, duration: duration)
+    public static func showQueue(in view: UIView? = nil, text: String? = nil, style: HUDStyle = .loading, duration: TimeInterval? = nil) {
+        let targetView = view ?? topMostView()
+        shared.enqueue(in: targetView, text: text, style: style, duration: duration)
     }
     
     func enqueue(in view: UIView, text: String?, style: HUDStyle, duration: TimeInterval?) {
@@ -38,9 +39,11 @@ public class XXHUD {
     }
     
     ///推荐使用
-    public static func show(in view: UIView, text: String? = nil, style: HUDStyle = .loading, duration: TimeInterval? = nil) {
-        shared.showHUD(in: view, text: text, style: style, duration: duration)
+    public static func show(in view: UIView? = nil, text: String? = nil, style: HUDStyle = .info, duration: TimeInterval? = 2) {
+        let targetView = view ?? topMostView()
+        shared.showHUD(in: targetView, text: text, style: style, duration: duration)
     }
+    
     func showHUD(in view: UIView, text: String?, style: HUDStyle, duration: TimeInterval?) {
         hudView?.removeFromSuperview()
         
@@ -167,7 +170,7 @@ public class XXHUD {
             container.transform = .identity
         })
         
-        if let duration = duration {
+        if let duration, style != .loading {
             DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
                 self.hideHUD()
             }
@@ -185,6 +188,15 @@ public class XXHUD {
             self.isShowing = false
             self.displayNextIfNeeded()
         })
+    }
+    
+    public static func topMostView() -> UIView {
+        guard let windowScene = UIApplication.shared.connectedScenes
+                .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+              let window = windowScene.windows.first(where: { $0.isKeyWindow }) else {
+            fatalError("找不到可用的窗口")
+        }
+        return window
     }
 }
 

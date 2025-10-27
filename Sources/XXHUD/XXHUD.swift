@@ -48,6 +48,7 @@ public class XXHUD {
         hudView?.removeFromSuperview()
         
         let container = UIView(frame: view.bounds)
+        container.isUserInteractionEnabled = (style == .loading)
         container.backgroundColor = (style == .info) ? UIColor.clear : configuration.containerBackgroundColor
         container.alpha = 0
         
@@ -192,9 +193,10 @@ public class XXHUD {
     
     public static func topMostView() -> UIView {
         guard let windowScene = UIApplication.shared.connectedScenes
-                .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+                .compactMap({ $0 as? UIWindowScene })
+                .first(where: { $0.activationState == .foregroundActive }),
               let window = windowScene.windows.first(where: { $0.isKeyWindow }) else {
-            fatalError("找不到可用的窗口")
+            fatalError("window not found")
         }
         return window
     }
